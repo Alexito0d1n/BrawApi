@@ -1,0 +1,32 @@
+.App {
+  text-align: center;
+  background-color: #f0f0f0;
+  padding: 20px;
+}
+
+.error {
+  color: red;
+}
+
+.player-info, .club-info {
+  margin: 20px 0;
+  padding: 20px;
+  border: 1px solid #ccc;
+  border-radius: 10px;
+  background-color: #fff;
+}
+
+.club-info ul {
+  list-style-type: none;
+  padding: 0;
+}
+
+.club-info li {
+  margin: 10px 0;
+  display: flex;
+  align-items: center;
+}
+
+.club-info li img {
+  margin-right: 10px;
+}
