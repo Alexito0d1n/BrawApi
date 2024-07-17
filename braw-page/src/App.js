@@ -1,9 +1,12 @@
+// src/App.js
 import React, { useState } from 'react';
 import './App.css';
 import PlayerInfo from './components/PlayerInfo';
+import TrophyChart from './components/TrophyChart';
 
 function App() {
     const [playerData, setPlayerData] = useState(null);
+    const [playerTag, setPlayerTag] = useState('');
     const [error, setError] = useState(null);
 
     const handleSubmit = async (event) => {
@@ -16,6 +19,7 @@ function App() {
 
             if (response.ok) {
                 setPlayerData(data);
+                setPlayerTag(playerTag); // Save the player tag for battle log request
                 setError(null);
             } else {
                 throw new Error(data.error || 'Error fetching data');
@@ -23,6 +27,7 @@ function App() {
         } catch (err) {
             setError(err.message);
             setPlayerData(null);
+            setPlayerTag(''); // Reset the player tag if there's an error
         }
     };
 
@@ -35,6 +40,9 @@ function App() {
             </form>
             {error && <p className="error">{error}</p>}
             {playerData && <PlayerInfo player={playerData} />}
+            {playerData && playerData.trophies !== undefined && (
+                <TrophyChart playerTag={playerTag} initialTrophies={playerData.trophies} />
+            )}
         </div>
     );
 }

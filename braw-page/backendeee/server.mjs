@@ -32,6 +32,29 @@ app.get('/api/player/:playerTag', async (req, res) => {
     }
 });
 
+app.get('/api/player/:playerTag/battlelog', async (req, res) => {
+    const { playerTag } = req.params;
+    const encodedPlayerTag = encodeURIComponent(playerTag);
+
+    try {
+        const response = await fetch(`https://api.brawlstars.com/v1/players/%23${encodedPlayerTag}/battlelog`, {
+            headers: {
+                'Authorization': `Bearer ${API_KEY}`
+            }
+        });
+
+        if (!response.ok) {
+            throw new Error(`Error fetching battle log: ${response.statusText}`);
+        }
+
+        const battleLogData = await response.json();
+        res.json(battleLogData);
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({ error: error.message });
+    }
+});
+
 app.listen(PORT, () => {
     console.log(`Server is running on port ${PORT}`);
 });
