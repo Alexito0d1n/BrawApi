@@ -1,0 +1,44 @@
+
+.club-members {
+    margin-bottom: 20px;
+    padding: 20px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    background-color: #f9f9f9;
+  }
+  
+  .club-members ul {
+    list-style-type: none;
+    padding: 0;
+  }
+  
+  .club-members li {
+    margin-bottom: 10px;
+  }
+  
+  .club-members img {
+    width: 40px;
+    height: 40px;
+  }
+  .member-text{
+    font-size: 1em;
+    font-weight: bold;
+    color: #000000;
+  }
+  .club-members ul {
+    list-style-type: none;
+    padding: 0;
+}
+
+.club-members li {
+    cursor: pointer; /* Cambia el cursor a una mano indicando que se puede hacer clic */
+    margin: 10px 0; /* Añade espacio entre los elementos */
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    transition: background-color 0.3s ease;
+}
+
+.club-members li:hover {
+    background-color: #f0f0f0; /* Cambia el fondo al pasar el cursor */
+}

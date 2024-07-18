@@ -23,6 +23,7 @@ const PlayerInfo = ({ player }) => {
             <p className="player-text">Victorias en solitario: <img src={solo} alt="Wins solo" style={trophyStyle} /> {player.soloVictories}</p>
             <p className="player-text">Victorias en duo: <img src={duo} alt="Wins duo" style={trophyStyle} /> {player.duoVictories}</p>
             <p className="player-text">Victorias en 3vs3: <img src={balon} alt="Wins duo" style={trophyStyle} /> {player['3vs3Victories']}</p>
+            <p>{player.club.tag}</p>
 
         
         

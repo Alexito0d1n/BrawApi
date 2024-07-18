@@ -55,6 +55,30 @@ app.get('/api/player/:playerTag/battlelog', async (req, res) => {
     }
 });
 
+// Nueva ruta para obtener datos del club
+app.get('/api/club/:clubTag', async (req, res) => {
+    const { clubTag } = req.params;
+    const encodedClubTag = encodeURIComponent(clubTag);
+
+    try {
+        const response = await fetch(`https://api.brawlstars.com/v1/clubs/%23${encodedClubTag}`, {
+            headers: {
+                'Authorization': `Bearer ${API_KEY}`
+            }
+        });
+
+        if (!response.ok) {
+            throw new Error(`Error fetching club data: ${response.statusText}`);
+        }
+
+        const clubData = await response.json();
+        res.json(clubData);
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({ error: error.message });
+    }
+});
+
 app.listen(PORT, () => {
     console.log(`Server is running on port ${PORT}`);
 });
