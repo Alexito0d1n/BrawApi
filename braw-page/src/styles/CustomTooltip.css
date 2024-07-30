@@ -1,0 +1,37 @@
+.custom-tooltip {
+    background-color: #fff;
+    border: 1px solid #ccc;
+    padding: 10px;
+    border-radius: 5px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  }
+  
+  .custom-tooltip .tooltip-content {
+    display: flex;
+    align-items: center;
+  }
+  
+  .custom-tooltip .tooltip-icon {
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    margin-right: 10px;
+  }
+  
+  .custom-tooltip .tooltip-text {
+    display: flex;
+    flex-direction: column;
+    
+  }
+  
+  .custom-tooltip .tooltip-text p {
+    margin: 0;
+    font-size: 25px;
+    font-weight: 600;
+  }
+  
+  .custom-tooltip .tooltip-text p img {
+    width: 32px;
+    height: 32px;
+    margin-right: 5px;
+  }

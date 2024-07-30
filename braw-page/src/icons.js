@@ -13,17 +13,15 @@ import icon28000452 from './assets/playerIcon/28000452.webp';
 import icon28000404 from './assets/playerIcon/28000404.webp';
 import icon28000221 from './assets/playerIcon/28000221.webp';
 
-import defaultIcon from './assets/playerIcon/monito.png'; // Importa la imagen por defecto
+import defaultIcon from './assets/playerIcon/monito.png'; 
 
 import trophies from './assets/multimedia/trophies.png';
-
-//icons from events or game modes
 import solo from './assets/multimedia/solo.png';
 import duo from './assets/multimedia/duo.png';
-import balon from './assets/multimedia/Brawlball.png';
+import balon from './assets/multimedia/brawlball.png';
+
 
 const playerIcons = {
-  // Lista de IDs y rutas a los iconos
   28000000: icon28000000,
   28000036: icon28000036,
   28000038: icon28000038,
@@ -38,11 +36,10 @@ const playerIcons = {
   28000290: icon28000290,
   28000404: icon28000404,
   28000452: icon28000452,
-  // Agrega más iconos según sea necesario
 };
 
 export const playerIcon = (id) => {
-  // Retorna el icono correspondiente al ID o un icono por defecto si no existe
   return playerIcons[id] || defaultIcon;
 };
-export {trophies, solo, duo, balon}; // Exporta los íconos de trofeos y los íconos de eventos
+
+export { trophies, solo, duo, balon };

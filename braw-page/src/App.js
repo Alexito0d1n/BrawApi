@@ -3,6 +3,7 @@ import './App.css';
 import PlayerInfo from './components/PlayerInfo';
 import TrophyChart from './components/TrophyChart';
 import ClubMembers from './components/ClubMembers';
+import BrawlersInfo from './components/BrawlersInfo';
 
 function App() {
     const [playerData, setPlayerData] = useState(null);
@@ -47,7 +48,7 @@ function App() {
 
     const handleSubmit = async (event) => {
         event.preventDefault();
-        const playerTag = event.target.elements.playerTag.value.trim();
+        const playerTag = event.target.elements.playerTag.value.trim().toUpperCase();
         await fetchPlayerData(playerTag);
     };
 
@@ -74,6 +75,7 @@ function App() {
                             {playerData.trophies !== undefined && (
                                 <TrophyChart playerTag={playerTag} initialTrophies={playerData.trophies} />
                             )}
+                            <BrawlersInfo playerTag={playerTag} />
                         </div>
                     )}
                 </div>

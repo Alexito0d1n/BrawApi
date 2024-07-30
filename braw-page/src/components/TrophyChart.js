@@ -1,11 +1,13 @@
 import React, { useState, useEffect } from 'react';
-import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer } from 'recharts';
+import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip as RechartsTooltip, ResponsiveContainer } from 'recharts';
+import CustomTooltip from './CustomTooltip';
+import { modeIcons } from '../assets/multimedia/modeIcons.js';
 import '../styles/TrophyChart.css';
 
 const TrophyChart = ({ playerTag, initialTrophies }) => {
   const [battleData, setBattleData] = useState([]);
   const [error, setError] = useState(null);
-  const [trophyRange, setTrophyRange] = useState([initialTrophies - 200, initialTrophies + 200]);
+  const [trophyRange, setTrophyRange] = useState([initialTrophies - 1, initialTrophies + 1]);
 
   useEffect(() => {
     const fetchBattleLog = async () => {
@@ -17,37 +19,44 @@ const TrophyChart = ({ playerTag, initialTrophies }) => {
           const processedData = [];
           let currentTrophies = initialTrophies;
 
-          // Iterate forward from the earliest game
           for (let i = 0; i < data.items.length; i++) {
             const battle = data.items[i];
+            console.log('Battle:', battle);
+
             const trophyChange = battle.battle.trophyChange !== undefined ? battle.battle.trophyChange : 0;
             currentTrophies -= trophyChange;
 
-            processedData.push({
+            const mode = battle.battle.mode || 'default';
+            const modeIcon = battle.battle.type === 'soloRanked' ? modeIcons.ranked : (modeIcons[mode] || modeIcons.default);
+            const result = battle.battle.result === 'victory' ? 'Victory' : 'Defeat';
+
+            const gameData = {
               name: `Game ${i + 1}`,
               trophies: currentTrophies,
               trophyChange: trophyChange,
-            });
+              mode: mode,
+              modeIcon: modeIcon,
+              result: battle.battle.type === 'soloRanked' ? result : null
+            };
+
+            console.log('Processed Game Data:', gameData);
+
+            processedData.push(gameData);
           }
 
-          // Reverse the processed data to show the latest game first
           processedData.reverse();
-
-          console.log(processedData); // Logging the data to the console for debugging
-
           setBattleData(processedData);
 
-          // Update the trophy range based on the new data
           const minTrophies = Math.min(...processedData.map(item => item.trophies));
           const maxTrophies = Math.max(...processedData.map(item => item.trophies));
-          setTrophyRange([Math.max(minTrophies - 200, 0), maxTrophies + 200]);
+          setTrophyRange([Math.max(minTrophies - 2, 0), maxTrophies + 2]);
         } else {
           throw new Error(data.error || 'Error fetching battle log');
         }
       } catch (err) {
         setError(err.message);
       }
-    }; 
+    };
 
     fetchBattleLog();
   }, [playerTag, initialTrophies]);
@@ -56,16 +65,32 @@ const TrophyChart = ({ playerTag, initialTrophies }) => {
     <div className="trophy-chart">
       <h2>Trophy Fluctuation</h2>
       {error && <p className="error">{error}</p>}
-      <ResponsiveContainer width="100%" height={400}>
-        <LineChart data={battleData} margin={{ top: 5, right: 30, left: 20, bottom: 5 }}>
+      <ResponsiveContainer height={600}>
+        <LineChart data={battleData} margin={{ top: 5, right: 20, left: 20, bottom: 5 }}>
           <CartesianGrid strokeDasharray="3 3" />
           <XAxis dataKey="name" />
           <YAxis domain={trophyRange} />
-          <Tooltip />
-          <Line type="monotone" dataKey="trophies" stroke="#8884d8" activeDot={{ r: 8 }} />
-        </LineChart> 
+          <RechartsTooltip content={<CustomTooltip />} />
+          <Line
+            type="monotone"
+            dataKey="trophies"
+            stroke="#8884d8"
+            activeDot={{ r: 8 }}
+            dot={(props) => {
+              const { modeIcon } = props.payload;
+              return (
+                <image
+                  x={props.cx - 17}
+                  y={props.cy - 15}
+                  href={modeIcon}
+                  width={32}
+                  height={32}
+                />
+              );
+            }}
+          />
+        </LineChart>
       </ResponsiveContainer>
-   
     </div>
   );
 };

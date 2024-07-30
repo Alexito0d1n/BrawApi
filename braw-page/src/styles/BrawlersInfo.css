@@ -1,0 +1,54 @@
+.brawlers-info {
+  flex: 1;
+  overflow-y: auto;
+}
+
+.brawlers-info ul {
+  list-style: none;
+  padding: 0;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin: 0;
+}
+
+.brawlers-info li {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin: 0;
+  border: 1px solid #ddd;
+  padding: 10px;
+  border-radius: 5px;
+  text-align: center;
+  flex: 1 1 150px;
+  box-sizing: border-box;
+}
+
+.brawler-icon-name {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.brawler-icon-name img {
+  margin-bottom: 5px;
+}
+
+.brawler-icon-name h3 {
+  margin: 0;
+}
+
+p {
+  margin: 5px 0;
+}
+
+.win-rate {
+  font-size: 1.2em;
+  font-weight: bold;
+  background-color: #ddd;
+}
+
+.error {
+  color: red;
+}
