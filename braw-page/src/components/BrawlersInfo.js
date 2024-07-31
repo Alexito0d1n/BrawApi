@@ -1,6 +1,7 @@
 import React, { useEffect, useState, useCallback } from 'react';
 import '../styles/BrawlersInfo.css';
 import { brawlerIcons, Default } from '../assets/brawlerIcons';
+import BrawlerTrophyChart from './BrawlerTrophyChart';
 
 const BrawlersInfo = ({ playerTag }) => {
     const [brawlersStats, setBrawlersStats] = useState([]);
@@ -16,15 +17,23 @@ const BrawlersInfo = ({ playerTag }) => {
 
         battleLog.forEach(battle => {
             const teams = battle?.battle?.teams;
-            if (!teams) return;
+            const players = battle?.battle?.players;
 
-            const playerBattle = teams.flat().find(player => player.tag === `#${normalizedPlayerTag}`);
+            if (!Array.isArray(teams) && !Array.isArray(players)) return;
+
+            let playerBattle;
+            if (Array.isArray(teams)) {
+                playerBattle = teams.flat().find(player => player.tag === `#${normalizedPlayerTag}`);
+            } else if (Array.isArray(players)) {
+                playerBattle = players.find(player => player.tag === `#${normalizedPlayerTag}`);
+            }
 
             if (playerBattle) {
                 const brawlerId = playerBattle.brawler.id;
                 const brawlerName = playerBattle.brawler.name;
+                const brawlerTrophies = playerBattle.brawler.trophies;
                 if (!brawlerMap[brawlerId]) {
-                    brawlerMap[brawlerId] = { id: brawlerId, name: brawlerName, games: 0, wins: 0 };
+                    brawlerMap[brawlerId] = { id: brawlerId, name: brawlerName, games: 0, wins: 0, initialTrophies: brawlerTrophies };
                 }
                 brawlerMap[brawlerId].games += 1;
 
@@ -71,18 +80,18 @@ const BrawlersInfo = ({ playerTag }) => {
     }, [normalizedPlayerTag, calculateBrawlerStats]);
 
     const getColorForPercentage = (percentage) => {
-        if (percentage <= 0) return '#ff0000'; 
-        if (percentage <= 50) return '#ffa500'; 
-        if (percentage <= 100) return '#008000'; 
-        return '#000000'; 
+        if (percentage <= 0) return '#ff0000';
+        if (percentage <= 50) return '#ffa500';
+        if (percentage <= 100) return '#008000';
+        return '#000000';
     };
 
     const handleImageError = (e) => {
-        e.target.src = Default; 
+        e.target.src = Default;
     };
 
     const getIconSize = (percentage) => {
-        const size = 40 + (percentage / 100) * 20; 
+        const size = 40 + (percentage / 100) * 300;
         return `${size}px`;
     };
 
@@ -96,22 +105,31 @@ const BrawlersInfo = ({ playerTag }) => {
             <ul>
                 {brawlersStats.map((brawler, index) => {
                     const color = getColorForPercentage(brawler.winRate);
-                    const iconSrc = brawlerIcons[brawler.name] || Default; 
+                    const iconSrc = brawlerIcons[brawler.name] || Default;
                     const iconSize = getIconSize(brawler.winRate);
                     return (
-                        <li key={index}>
-                            <div className="brawler-icon-name">
-                                <img 
-                                    src={iconSrc} 
-                                    alt={brawler.name} 
-                                    style={{ width: iconSize, height: iconSize }} 
-                                    onError={handleImageError} 
-                                    loading="lazy" 
+                        <li key={index} className="brawler-item">
+                            <div className="brawler-details">
+                                <div className="brawler-icon-name">
+                                    <img
+                                        src={iconSrc}
+                                        alt={brawler.name}
+                                        style={{ width: iconSize, height: iconSize }}
+                                        onError={handleImageError}
+                                        loading="lazy"
+                                    />
+                                    <div>
+                                        <h3>{brawler.name}</h3>
+                                        <p className="win-rate" style={{ color }}>{brawler.winRate}%</p>
+                                        <p>Games Played: {brawler.games}</p>
+                                    </div>
+                                </div>
+                                <BrawlerTrophyChart
+                                    playerTag={playerTag}
+                                    brawlerId={brawler.id}
+                                    initialTrophies={brawler.initialTrophies}
                                 />
-                                <h3>{brawler.name}</h3>
-                                <p className="win-rate" style={{ color }}>{brawler.winRate}%</p>
                             </div>
-                            <p>Games Played: {brawler.games}</p>
                         </li>
                     );
                 })}

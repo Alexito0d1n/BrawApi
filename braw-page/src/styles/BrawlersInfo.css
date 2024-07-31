@@ -1,54 +1,64 @@
 .brawlers-info {
-  flex: 1;
-  overflow-y: auto;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    font-family: Arial, sans-serif;
+    padding: 20px;
 }
-
 .brawlers-info ul {
-  list-style: none;
-  padding: 0;
-  display: flex;
-  flex-wrap: wrap;
-  gap: 10px;
-  margin: 0;
+    list-style: none;
+    padding: 0;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    margin: 0;
+  }
+
+  
+.brawler-item {
+    display: flex;
+    align-items: center;
+    margin-bottom: 20px;
+    width: 100%;
 }
 
-.brawlers-info li {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  margin: 0;
-  border: 1px solid #ddd;
-  padding: 10px;
-  border-radius: 5px;
-  text-align: center;
-  flex: 1 1 150px;
-  box-sizing: border-box;
+.brawler-details {
+    display: flex;
+    align-items: center;
+    width: 100%;
+    justify-content: space-between;
 }
 
 .brawler-icon-name {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
+    display: flex;
+    align-items: center;
+    margin-right: 20px;
 }
 
 .brawler-icon-name img {
-  margin-bottom: 5px;
+    margin-right: 10px;
+    
 }
 
 .brawler-icon-name h3 {
-  margin: 0;
-}
-
-p {
-  margin: 5px 0;
+    margin: 0;
+    font-size: 1.2rem;
+    font-weight: bold;
 }
 
 .win-rate {
-  font-size: 1.2em;
-  font-weight: bold;
-  background-color: #ddd;
+    font-size: 2rem;
+    margin-top: 5px;
+    font-weight: bold;
+    background-color: #ddd;
+
+
 }
 
-.error {
-  color: red;
+.trophy-chart-brawler {
+    width: 100%;
+    max-width: 800px; 
 }
+.error {
+    color: red;
+  }
